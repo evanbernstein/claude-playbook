@@ -78,6 +78,17 @@ The `## Always` block at the top of `CLAUDE.md` holds voice/working-style rules;
 
 If you only use Claude Code (CLI or VS Code), there's a shortcut: put `@~/Programming/claude-playbook/CLAUDE.md` (adjusted to your checkout path) in `~/.claude/CLAUDE.md`. That imports the playbook globally for every project, no per-project stub needed. Works for solo setups; not portable to teammates.
 
+### If you want the permission allowlist
+
+`claude/settings.json` is a read-leaning Claude Code permission allowlist (file reads, greps, git history, `gh pr view`, test runners, install commands), with destructive commands explicitly denied. Install it at user scope by symlinking:
+
+```bash
+mkdir -p ~/.claude
+ln -sf ~/Programming/claude-playbook/claude/settings.json ~/.claude/settings.json
+```
+
+Now every project on your machine inherits the same allowlist, and edits to the playbook's `claude/settings.json` apply on the next session. Unlike the `CLAUDE.md` import, this is per-machine (user scope), not per-repo; settings JSON has no `@import` primitive.
+
 ### If you want a skill
 
 ```bash
