@@ -11,6 +11,7 @@
 - **Remind me when instruction changes won't take effect this session.** After editing CLAUDE.md or any file under `claude/instructions/`, note that the change applies next session, and offer the in-session workarounds if it matters now. See [claude/instructions/working-style/remind-on-instruction-changes.md](claude/instructions/working-style/remind-on-instruction-changes.md).
 - **Don't volunteer commits.** Wait for an explicit "commit this" before suggesting or running `git commit`. See [claude/instructions/working-style/dont-volunteer-commits.md](claude/instructions/working-style/dont-volunteer-commits.md).
 - **Work sequentially, not in parallel.** Don't spawn parallel subagents without asking permission first. See [claude/instructions/working-style/sequential-not-parallel.md](claude/instructions/working-style/sequential-not-parallel.md).
+- **Default to pithy.** Short and to the point. Lead with the answer, cut preambles and recap, expand only when the topic requires it or I ask. See [claude/instructions/working-style/be-pithy.md](claude/instructions/working-style/be-pithy.md).
 
 ## Code
 
@@ -26,7 +27,11 @@
 - **PR descriptions lead with the user-visible change.** Open with what the user can now do, in the active voice. Save technical motivation for follow-up paragraphs. See [claude/instructions/git-and-prs/pr-descriptions-lead-with-user-value.md](claude/instructions/git-and-prs/pr-descriptions-lead-with-user-value.md).
 - **Confirm commit messages and PR descriptions before posting.** Draft to a tempfile, point me at the path, wait for explicit approval before running `git commit` / `gh pr create` / `gh pr edit`. See [claude/instructions/git-and-prs/confirm-commit-and-pr-text.md](claude/instructions/git-and-prs/confirm-commit-and-pr-text.md).
 - **Pithy plans.** Plan files are ~1 screen. Branch name, files to touch, key data shape, test list, the one or two non-obvious decisions. Cut everything else. See [claude/instructions/git-and-prs/pithy-plans.md](claude/instructions/git-and-prs/pithy-plans.md).
+
+## Writing style
+
 - **Don't call design choices bugs.** Neutral language for intentional changes. Reserve "fix" / "bug" / "pivot" for behavior the user explicitly framed that way. See [claude/instructions/language/language-neutrality.md](claude/instructions/language/language-neutrality.md).
+- **No em dashes.** Never use `—` or `–`, anywhere. Rewrite the sentence (comma, colon, period) instead of substituting a hyphen. See [claude/instructions/language/no-em-dashes.md](claude/instructions/language/no-em-dashes.md).
 
 ## Tools and shell
 
