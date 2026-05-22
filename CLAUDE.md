@@ -21,6 +21,7 @@
 - **Tell me how to see changes.** End every work summary with what I need to do: reload, restart the dev server, clear a cache, run a command. Don't make me guess. See [claude/instructions/working-style/tell-how-to-test.md](claude/instructions/working-style/tell-how-to-test.md).
 - **Remind me when instruction changes won't take effect this session.** After editing CLAUDE.md or any file under `claude/instructions/`, note that the change applies next session, and offer the in-session workarounds if it matters now. See [claude/instructions/working-style/remind-on-instruction-changes.md](claude/instructions/working-style/remind-on-instruction-changes.md).
 - **Don't volunteer commits.** Wait for an explicit "commit this" before suggesting or running `git commit`. See [claude/instructions/working-style/dont-volunteer-commits.md](claude/instructions/working-style/dont-volunteer-commits.md).
+- **Accrete patterns as you find them.** When you learn a recurring pattern, fix a recurring bug, or hit a convention the code follows but doesn't document, proactively write it down. Project-specific rules go in the project's `CLAUDE.md`; generic rules that would apply to other projects go in the playbook's `CLAUDE.md` (and a new file under `claude/instructions/` if they need more than a line). Don't wait to be asked. See [claude/instructions/working-style/accrete-into-claude-md.md](claude/instructions/working-style/accrete-into-claude-md.md).
 
 ## Code
 
