@@ -1,6 +1,6 @@
 # Keep your CLAUDE.md small
 
-Every line of CLAUDE.md is loaded into Claude's context on every session. Context is a finite, valuable resource — every token spent on `CLAUDE.md` is a token unavailable for the actual task.
+Every line of CLAUDE.md is loaded into Claude's context on every session. Context is a finite, valuable resource: every token spent on `CLAUDE.md` is a token unavailable for the actual task.
 
 **Instruction:** CLAUDE.md should be roughly one screen of high-signal content, with links out to detailed files that Claude loads on demand.
 
@@ -12,7 +12,7 @@ Every line of CLAUDE.md is loaded into Claude's context on every session. Contex
 
 **How to apply:**
 
-1. **In the root CLAUDE.md, write the instruction headline and a one-sentence summary** — enough that Claude knows it exists and roughly what it means.
+1. **In the root CLAUDE.md, write the instruction headline and a one-sentence summary:** enough that Claude knows it exists and roughly what it means.
 2. **Link to a detail file** for the *why* and the *how to apply*. Claude will read that file when the instruction is actually relevant.
 3. **Group instructions under section headers** so it's scannable. Headers also let Claude quickly find the right one when something comes up.
 4. **Stack-specific instructions** (e.g. Python `uv` conventions, React Router v7 quirks) go in their own files under `stacks/` and are linked from CLAUDE.md as conditional includes ("if the project uses X, also load…").

@@ -1,6 +1,6 @@
 # Keep plan files pithy
 
-Plan files are short and scannable. Important details stay — file paths, key data shape, test cases, non-obvious decisions — but cut the prose.
+Plan files are short and scannable. Important details stay (file paths, key data shape, test cases, non-obvious decisions), but cut the prose.
 
 **Why:** I read plans top to bottom. Verbose plans bury the load-bearing decisions under context preambles, restated memory content, and exhaustive verification checklists I don't actually need to see.
 
@@ -19,8 +19,8 @@ Plan files are short and scannable. Important details stay — file paths, key d
 Branch: `<branch-name>`
 
 ## Files to touch
-- `path/to/file.ts` — what changes
-- `path/to/other.ts` — what changes
+- `path/to/file.ts`: what changes
+- `path/to/other.ts`: what changes
 
 ## Key decisions
 - One or two design choices that aren't obvious from the file list.

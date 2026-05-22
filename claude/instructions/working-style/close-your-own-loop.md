@@ -1,8 +1,8 @@
 # Close your own verification loop before handing back
 
-Before telling the user a change is done, verify it actually works. Run the test, hit the endpoint, render the page, query the database — whatever's needed to confirm the change produces the result you claimed. "Should work" is not a status report.
+Before telling the user a change is done, verify it actually works. Run the test, hit the endpoint, render the page, query the database; whatever's needed to confirm the change produces the result you claimed. "Should work" is not a status report.
 
-**Why:** A round-trip where the user finds a problem you could have caught yourself is expensive — for them in time and trust, for the session in token spend and context drift. Closing the loop yourself catches the easy stuff before it becomes back-and-forth.
+**Why:** A round-trip where the user finds a problem you could have caught yourself is expensive: for them in time and trust, for the session in token spend and context drift. Closing the loop yourself catches the easy stuff before it becomes back-and-forth.
 
 **How to apply:**
 

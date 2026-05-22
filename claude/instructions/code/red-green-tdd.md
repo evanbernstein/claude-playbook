@@ -2,11 +2,11 @@
 
 When planning and implementing work, follow the red/green TDD cycle:
 
-1. **Write the test first** — it should fail (red).
+1. **Write the test first.** It should fail (red).
 2. **Implement the code** to make the test pass (green).
 3. Repeat for the next behavior.
 
-**Why:** Catches design issues early, produces tighter tests, and ensures tests actually verify what they claim to. A test that was never red might pass for the wrong reason — for example, asserting against the same default value the code returns when no code path actually exercises the new behavior.
+**Why:** Catches design issues early, produces tighter tests, and ensures tests actually verify what they claim to. A test that was never red might pass for the wrong reason; for example, asserting against the same default value the code returns when no code path actually exercises the new behavior.
 
 **How to apply:**
 - In execution plans, order steps as: write test → run test (confirm red) → implement → run test (confirm green). Not: implement → write test.

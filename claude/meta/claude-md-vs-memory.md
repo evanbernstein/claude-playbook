@@ -1,4 +1,4 @@
-# CLAUDE.md vs memory vs skills — when to use what
+# CLAUDE.md vs memory vs skills: when to use what
 
 Claude offers a few different mechanisms for persisting context across conversations. They serve different purposes; mixing them up is a common mistake.
 
@@ -10,7 +10,7 @@ A markdown file at the root of a project that's automatically loaded into every 
 
 - **Lives in:** `<project-root>/CLAUDE.md` (and optionally nested, e.g. `<project-root>/apps/web/CLAUDE.md` for sub-package conventions).
 - **Visibility:** Checked into the repo. Travels with the project. Same on every machine and every collaborator.
-- **Use for:** Project-specific conventions, build commands, architectural instructions, naming conventions, dependency management — anything that should apply consistently when working on this project, regardless of who's at the keyboard.
+- **Use for:** Project-specific conventions, build commands, architectural instructions, naming conventions, dependency management; anything that should apply consistently when working on this project, regardless of who's at the keyboard.
 
 ### 2. ~/.claude/CLAUDE.md (user-level instructions)
 
@@ -18,7 +18,7 @@ A markdown file in your home directory that's automatically loaded into every Cl
 
 - **Lives in:** `~/.claude/CLAUDE.md`.
 - **Visibility:** Local to your machine. Not committed anywhere by default.
-- **Use for:** Personal preferences that span all your work — tone, working style, things like "ask clarifying questions before building" or "don't be a yes-man".
+- **Use for:** Personal preferences that span all your work: tone, working style, things like "ask clarifying questions before building" or "don't be a yes-man".
 
 ### 3. Memory system (`~/.claude/projects/<encoded-project-path>/memory/`)
 
@@ -30,7 +30,7 @@ Files that Claude writes and reads automatically based on the project you're in.
 
 ### 4. Skills
 
-Reusable, self-contained packages that bundle instructions (and sometimes scripts) for a specific task — e.g. "save articles to my Obsidian vault", "add a new book to the PriceCheck scraper".
+Reusable, self-contained packages that bundle instructions (and sometimes scripts) for a specific task, e.g. "save articles to my Obsidian vault", "add a new book to the PriceCheck scraper".
 
 - **Lives in:** `<project-root>/.claude/skills/<skill-name>/SKILL.md` (project-scoped) or `~/.claude/skills/<skill-name>/SKILL.md` (user-scoped).
 - **Visibility:** Project-scoped skills are committed; user-scoped are local.
@@ -49,4 +49,4 @@ The bias should be CLAUDE.md. Memory is local to one machine; CLAUDE.md travels 
 
 ## Migration pattern
 
-If you find yourself accumulating useful lessons in the memory system that aren't truly local, periodically lift them into CLAUDE.md. The memory file becomes a staging area for "is this a real, repeatable instruction?" — once you're sure, promote it.
+If you find yourself accumulating useful lessons in the memory system that aren't truly local, periodically lift them into CLAUDE.md. The memory file becomes a staging area for "is this a real, repeatable instruction?" Once you're sure, promote it.

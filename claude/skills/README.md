@@ -1,6 +1,6 @@
 # Skills
 
-A **skill** is a self-contained package that bundles instructions (and sometimes scripts and templates) for a specific task. Claude loads a skill when its description matches the user's request — for example, a "save article to Obsidian" skill triggers when the user pastes a URL into chat.
+A **skill** is a self-contained package that bundles instructions (and sometimes scripts and templates) for a specific task. Claude loads a skill when its description matches the user's request; for example, a "save article to Obsidian" skill triggers when the user pastes a URL into chat.
 
 ## How a skill is structured
 
@@ -58,4 +58,4 @@ That's it. The next Claude conversation will pick up the new skill automatically
 
 ## What's in this directory
 
-- **`obsidian-article-saver/`** — Save articles and blog posts to an Obsidian vault. Triggered when the user shares a URL with the intent of archiving it. Specific to Obsidian — adapt the vault paths in `SKILL.md` to match your own setup.
+- **`obsidian-article-saver/`:** Save articles and blog posts to an Obsidian vault. Triggered when the user shares a URL with the intent of archiving it. Specific to Obsidian; adapt the vault paths in `SKILL.md` to match your own setup.
