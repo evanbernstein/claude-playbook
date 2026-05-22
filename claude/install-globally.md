@@ -17,12 +17,14 @@ Open `CLAUDE.md` from this repo, copy the entire `## Always` section (from the `
 
 ## claude.ai web and Claude Desktop / Cowork
 
-There's no user-level `CLAUDE.md` for the web app. Use **Personalization** instead:
+There's no user-level `CLAUDE.md` for the web app or Cowork, and Cowork doesn't resolve `@imports`. Use **Profile Instructions** instead. The same field covers both claude.ai web and Cowork: Cowork injects your Profile Instructions into every session automatically, no separate setup needed.
 
 1. Open [claude.ai](https://claude.ai), click your initials (bottom left), then **Settings → Personalization**.
 2. Open `CLAUDE.md` from this repo and copy the `## Always` section (rule text only; skip the `Details:` links since they're project-relative).
 3. Paste into the "What personal preferences should Claude consider in responses?" field.
 4. Save.
+
+To verify it took in Cowork, open a fresh Cowork session with no folder selected and ask: *"What user preferences do you see in your context? Quote them exactly."* The reply should quote your `## Always` block verbatim. If it's paraphrased or missing, the field didn't save or got truncated.
 
 ## Anthropic API
 

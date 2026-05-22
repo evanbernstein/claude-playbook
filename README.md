@@ -126,7 +126,7 @@ Three short reads on how Claude's instruction-and-memory systems actually behave
 
 If you're using Claude Desktop or Cowork rather than Claude Code, the `@import` trick doesn't apply (those tools don't resolve project-relative imports the same way). Most of this playbook still applies, though. The files in `claude/instructions/working-style/` in particular (push back, ask first, describe plans before executing, tell me how to see changes) are language- and tool-agnostic. They work just as well for "help me organize my files" as for "implement this feature."
 
-You don't have a project-level `CLAUDE.md` in those tools, but you can paste the working-style instructions into your user preferences (Settings → Personalization in Claude.ai, or your `~/.claude/CLAUDE.md`) to get the same effect. See [claude/install-globally.md](claude/install-globally.md).
+You don't have a project-level `CLAUDE.md` in those tools, but you can paste the working-style instructions into Profile Instructions (Settings → Personalization on claude.ai) to get the same effect. The same field carries over into Cowork sessions automatically. See [claude/install-globally.md](claude/install-globally.md).
 
 The `claude/skills/` directory is also useful; skills work the same way across Claude products.
 
