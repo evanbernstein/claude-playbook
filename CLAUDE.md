@@ -34,7 +34,7 @@
 
 - **Commit and PR messages describe the final state.** Before-to-after, not the journey. No phase references, no intermediate-iteration commentary, no "bonus" sections. See [claude/instructions/git-and-prs/commit-pr-message-style.md](claude/instructions/git-and-prs/commit-pr-message-style.md).
 - **PR descriptions lead with the user-visible change.** Open with what the user can now do, in the active voice. Save technical motivation for follow-up paragraphs. See [claude/instructions/git-and-prs/pr-descriptions-lead-with-user-value.md](claude/instructions/git-and-prs/pr-descriptions-lead-with-user-value.md).
-- **Confirm commit messages and PR descriptions before posting.** Draft to a tempfile, point me at the path, wait for explicit approval before running `git commit` / `gh pr create` / `gh pr edit`. See [claude/instructions/git-and-prs/confirm-commit-and-pr-text.md](claude/instructions/git-and-prs/confirm-commit-and-pr-text.md).
+- **Confirm commit messages and PR descriptions before posting.** Draft to a tempfile, point me at the path, wait for explicit approval before running `git commit` / `gh pr create` / `gh pr edit`. Does not apply to ordinary file edits in a tracked repo; apply approved file edits directly. See [claude/instructions/git-and-prs/confirm-commit-and-pr-text.md](claude/instructions/git-and-prs/confirm-commit-and-pr-text.md).
 - **Pithy plans.** Plan files are ~1 screen. Branch name, files to touch, key data shape, test list, the one or two non-obvious decisions. Cut everything else. See [claude/instructions/git-and-prs/pithy-plans.md](claude/instructions/git-and-prs/pithy-plans.md).
 
 ## Writing style

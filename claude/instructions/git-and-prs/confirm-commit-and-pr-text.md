@@ -11,3 +11,7 @@ Never post a commit message or PR description without explicit approval first. T
 - Don't paste the proposed body back into chat as the primary review surface; the file is the artifact under review.
 - Immediately before posting, `Read` the file once more in case the user edited it after approving.
 - Same rule applies to edits of an existing commit message or PR body (`git commit --amend`, `gh pr edit --body-file`): file first, then approval, then post.
+
+## Not for ordinary file edits
+
+File edits in a tracked repo are cheaply reversible (`git checkout <path>`, `git reset`, `git revert`). Apply approved file edits directly. The tempfile-and-confirm pattern is for content that ships to a remote or rewrites history: commit messages, PR descriptions, tag messages, release notes. If you find yourself drafting a tempfile for a file edit, stop and just edit the file.
