@@ -45,6 +45,7 @@
 ## Tools and shell
 
 - **No Bash on `$`-named paths.** Quoting and backslash-escaping both still prompt. Use Read, Edit, Grep, or Glob instead; they bypass the shell. See [claude/instructions/tools-and-shell/no-bash-on-dollar-paths.md](claude/instructions/tools-and-shell/no-bash-on-dollar-paths.md).
+- **One command per Bash call.** Don't chain with `&&`, `||`, `;`, or pipes when each piece could stand alone. Compound commands match the permission allowlist as one long string and almost always prompt; separate calls each match the allowlist individually and run silently. See [claude/instructions/tools-and-shell/one-command-per-bash-call.md](claude/instructions/tools-and-shell/one-command-per-bash-call.md).
 
 ## Stack-specific conventions
 
