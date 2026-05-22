@@ -1,5 +1,8 @@
 {
   "permissions": {
+    "additionalDirectories": [
+      "/Users/evan/Programming/claude-playbook"
+    ],
     "allow": [
       "Bash(awk:*)",
       "Bash(cat:*)",
@@ -40,6 +43,15 @@
       "Bash(git stash list:*)",
       "Bash(git stash show:*)",
 
+      "Bash(git -C * blame:*)",
+      "Bash(git -C * branch:*)",
+      "Bash(git -C * diff:*)",
+      "Bash(git -C * log:*)",
+      "Bash(git -C * ls-tree:*)",
+      "Bash(git -C * rev-parse:*)",
+      "Bash(git -C * show:*)",
+      "Bash(git -C * status:*)",
+
       "Bash(gh pr view:*)",
       "Bash(gh pr list:*)",
       "Bash(gh pr diff:*)",
@@ -73,6 +85,18 @@
     ],
     "deny": [
       "Bash(sudo:*)"
+    ]
+  },
+  "hooks": {
+    "UserPromptSubmit": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "prompt=$(jq -r '.prompt'); if echo \"$prompt\" | grep -iqE 'commit|open a PR|gh pr (create|edit)'; then jq -n --rawfile rule /Users/evan/Programming/claude-playbook/claude/instructions/git-and-prs/confirm-commit-and-pr-text.md '{hookSpecificOutput: {hookEventName: \"UserPromptSubmit\", additionalContext: $rule}}'; fi"
+          }
+        ]
+      }
     ]
   }
 }
