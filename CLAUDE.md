@@ -49,9 +49,13 @@
 
 ## Stack-specific conventions
 
-If the project uses these stacks, also load:
+**Detect the stack at session start.** On the first turn, inspect the project root for stack markers and read the matching stack file(s) from the playbook checkout (`../claude-playbook/claude/stacks/` relative to the project, or wherever the playbook is symlinked). Read every file that matches; a project can use multiple stacks at once.
 
-- Python with `uv` and `ruff`: [claude/stacks/python-uv.md](claude/stacks/python-uv.md)
-- TypeScript with Bun and Biome: [claude/stacks/typescript-bun.md](claude/stacks/typescript-bun.md)
-- React Router v7: [claude/stacks/react-router-v7.md](claude/stacks/react-router-v7.md)
-- Redis: [claude/stacks/redis.md](claude/stacks/redis.md)
+| Marker in the project | File to read |
+| --- | --- |
+| `pyproject.toml` managed by `uv` (a `uv.lock` is present, or `[tool.uv]` appears in `pyproject.toml`) | [claude/stacks/python-uv.md](claude/stacks/python-uv.md) |
+| `package.json` with `bun` as the package manager (a `bun.lock`/`bun.lockb` is present, or scripts use `bun`) | [claude/stacks/typescript-bun.md](claude/stacks/typescript-bun.md) |
+| `react-router` v7+ in `package.json` dependencies | [claude/stacks/react-router-v7.md](claude/stacks/react-router-v7.md) |
+| A Redis client (`redis`, `ioredis`, `redis-py`, etc.) in dependencies | [claude/stacks/redis.md](claude/stacks/redis.md) |
+
+If no marker matches, skip this step. If a marker matches but the file doesn't exist in the playbook checkout, mention it once and move on; don't block the session.
