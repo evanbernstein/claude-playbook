@@ -77,11 +77,33 @@
       "Bash(uvx:*)",
       "Bash(make:*)",
 
-      "mcp__playwright__browser_navigate",
+      "Bash(just coverage *)",
+      "Bash(just format-check:*)",
+      "Bash(just format:*)",
+      "Bash(just lint:*)",
+      "Bash(just setup:*)",
+      "Bash(just test-ios:*)",
+      "Bash(just test:*)",
+      "Bash(swift run *)",
+      "Bash(swift test:*)",
+      "Bash(xcodebuild build:*)",
+      "Bash(xcodebuild test:*)",
+      "Bash(xcrun simctl:*)",
+
+      "mcp__playwright__browser_click",
       "mcp__playwright__browser_evaluate",
-      "mcp__playwright__browser_take_screenshot",
+      "mcp__playwright__browser_navigate",
+      "mcp__playwright__browser_press_key",
       "mcp__playwright__browser_resize",
-      "mcp__playwright__browser_snapshot"
+      "mcp__playwright__browser_snapshot",
+      "mcp__playwright__browser_take_screenshot",
+
+      "Edit(//tmp/commit-msg-*.md)",
+      "Edit(//tmp/pr-body-*.md)",
+      "Read(//tmp/commit-msg-*.md)",
+      "Read(//tmp/pr-body-*.md)",
+      "Write(//tmp/commit-msg-*.md)",
+      "Write(//tmp/pr-body-*.md)"
     ],
     "deny": [
       "Bash(sudo:*)"
@@ -94,6 +116,17 @@
           {
             "type": "command",
             "command": "prompt=$(jq -r '.prompt'); if echo \"$prompt\" | grep -iqE 'commit|open a PR|gh pr (create|edit)'; then jq -n --rawfile rule /Users/evan/Programming/claude-playbook/claude/instructions/git-and-prs/confirm-commit-and-pr-text.md '{hookSpecificOutput: {hookEventName: \"UserPromptSubmit\", additionalContext: $rule}}'; fi"
+          }
+        ]
+      }
+    ],
+    "PreToolUse": [
+      {
+        "matcher": "Bash",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "/Users/evan/Programming/claude-playbook/claude/hooks/redirect-shell-reads.sh"
           }
         ]
       }
