@@ -30,7 +30,6 @@
       "Bash(xargs ls:*)",
       "Bash(xargs rg:*)",
       "Bash(yq:*)",
-
       "Bash(git blame:*)",
       "Bash(git branch:*)",
       "Bash(git checkout:*)",
@@ -42,7 +41,6 @@
       "Bash(git status:*)",
       "Bash(git stash list:*)",
       "Bash(git stash show:*)",
-
       "Bash(git -C * blame:*)",
       "Bash(git -C * branch:*)",
       "Bash(git -C * diff:*)",
@@ -51,7 +49,6 @@
       "Bash(git -C * rev-parse:*)",
       "Bash(git -C * show:*)",
       "Bash(git -C * status:*)",
-
       "Bash(gh pr view:*)",
       "Bash(gh pr list:*)",
       "Bash(gh pr diff:*)",
@@ -61,7 +58,6 @@
       "Bash(gh issue list:*)",
       "Bash(gh run view:*)",
       "Bash(gh run list:*)",
-
       "Bash(bun install:*)",
       "Bash(bun run:*)",
       "Bash(bun test:*)",
@@ -76,7 +72,6 @@
       "Bash(uv sync:*)",
       "Bash(uvx:*)",
       "Bash(make:*)",
-
       "Bash(just coverage *)",
       "Bash(just format-check:*)",
       "Bash(just format:*)",
@@ -86,24 +81,21 @@
       "Bash(just test:*)",
       "Bash(swift run *)",
       "Bash(swift test:*)",
+      "Bash(swift test-ui:*)",
       "Bash(xcodebuild build:*)",
       "Bash(xcodebuild test:*)",
       "Bash(xcrun simctl:*)",
-
       "mcp__playwright__browser_click",
+      "mcp__playwright__browser_close",
       "mcp__playwright__browser_evaluate",
       "mcp__playwright__browser_navigate",
       "mcp__playwright__browser_press_key",
       "mcp__playwright__browser_resize",
       "mcp__playwright__browser_snapshot",
       "mcp__playwright__browser_take_screenshot",
-
-      "Edit(//tmp/commit-msg-*.md)",
-      "Edit(//tmp/pr-body-*.md)",
-      "Read(//tmp/commit-msg-*.md)",
-      "Read(//tmp/pr-body-*.md)",
-      "Write(//tmp/commit-msg-*.md)",
-      "Write(//tmp/pr-body-*.md)"
+      "Edit(//tmp/**)",
+      "Read(//tmp/**)",
+      "Write(//tmp/**)"
     ],
     "deny": [
       "Bash(sudo:*)"

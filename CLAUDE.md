@@ -26,6 +26,7 @@
 ## Code
 
 - **Red/green TDD.** Write a failing test first, then the minimum code to pass. See [claude/instructions/code/red-green-tdd.md](claude/instructions/code/red-green-tdd.md).
+- **Skip tests the typechecker covers.** Don't test helper signatures, argument counts, or type-enforced shapes. Add only wiring assertions where the typechecker can't verify a value gets pulled from the right source (e.g. the right field threads through a call chain).
 - **No abbreviations in identifiers.** Full words. `performance` not `perf`, `random_generator` not `rng`. Industry-standard short names (`id`, `db`, `url`, `http`, `json`, `env`) are fine. See [claude/instructions/code/no-abbreviations.md](claude/instructions/code/no-abbreviations.md).
 - **DRY and single responsibility.** No duplicated logic; extract shared code. Each class, component, or function does one thing. See [claude/instructions/code/dry-and-single-responsibility.md](claude/instructions/code/dry-and-single-responsibility.md).
 - **Docstrings focus on *why*.** Every class/method gets a docstring explaining why it exists and how it's used. Don't narrate what the code does. Test docstrings describe the scenario and what the test proves; never document parameters. See [claude/instructions/code/docstring-style.md](claude/instructions/code/docstring-style.md).
@@ -35,7 +36,7 @@
 
 - **Commit and PR messages describe the final state.** Before-to-after, not the journey. No phase references, no intermediate-iteration commentary, no "bonus" sections. See [claude/instructions/git-and-prs/commit-pr-message-style.md](claude/instructions/git-and-prs/commit-pr-message-style.md).
 - **PR descriptions lead with the user-visible change.** Open with what the user can now do, in the active voice. Save technical motivation for follow-up paragraphs. See [claude/instructions/git-and-prs/pr-descriptions-lead-with-user-value.md](claude/instructions/git-and-prs/pr-descriptions-lead-with-user-value.md).
-- **Confirm commit messages and PR descriptions before posting.** Draft to a tempfile, point me at the path, wait for explicit approval before running `git commit` / `gh pr create` / `gh pr edit`. Does not apply to ordinary file edits in a tracked repo; apply approved file edits directly. See [claude/instructions/git-and-prs/confirm-commit-and-pr-text.md](claude/instructions/git-and-prs/confirm-commit-and-pr-text.md).
+- **Confirm commit messages and PR descriptions before posting.** Draft to a tempfile, give me a clickable markdown link to open it, wait for explicit approval before running `git commit` / `gh pr create` / `gh pr edit`. Does not apply to ordinary file edits in a tracked repo; apply approved file edits directly. See [claude/instructions/git-and-prs/confirm-commit-and-pr-text.md](claude/instructions/git-and-prs/confirm-commit-and-pr-text.md).
 - **Pithy plans.** Plan files are ~1 screen. Branch name, files to touch, key data shape, test list, the one or two non-obvious decisions. Cut everything else. See [claude/instructions/git-and-prs/pithy-plans.md](claude/instructions/git-and-prs/pithy-plans.md).
 
 ## Writing style
