@@ -7,8 +7,8 @@
 # never "something destructive ran silently".
 #
 # The one command class the hook actively DENIES (rather than falling through)
-# is Bash on a path containing a literal `$`, which an allow rule would otherwise
-# run silently; see the dollar-path guard below.
+# is Bash on an unquoted `$`-path, which the shell expands to the wrong file and
+# an allow rule would otherwise run silently; see the dollar-path guard below.
 #
 # Wired in via the PreToolUse entry in claude/settings.json.
 #
@@ -23,10 +23,12 @@
 #   Allow:  find . -name '*.ts' | xargs grep foo | sort | uniq -c
 #   Allow:  cat "$f" | grep "$(date +%Y)"
 #   Allow:  git log --oneline | grep fix
+#   Allow:  cat 'app/routes/$slug.tsx'        (single-quoted $-path is literal)
 #   Pass :  gh pr create --body-file /tmp/x   (gh write subcommand)
 #   Pass :  grep foo f > out.txt              (file write)
 #   Pass :  find . -name x -delete            (mutating action)
 #   Pass :  echo hi && rm -rf build           (rm not read-only)
+#   Deny :  cat app/routes/$slug.tsx          (unquoted $ expands to wrong file)
 
 set -uo pipefail
 
@@ -36,21 +38,23 @@ command=$(printf '%s' "$input" | jq -r '.tool_input.command // ""')
 # Nothing to classify -> let normal flow handle it.
 [[ -n "$command" ]] || exit 0
 
-# Bash on a path containing a literal `$` (React Router dynamic segments like
-# `$slug.tsx`, written backslash-escaped `\$slug` or single-quoted `'/x/$slug'`)
-# must never run through the shell -- the first-party Read/Edit/Grep/Glob tools
-# take such paths directly. The normal permission screen prompts on a bare
-# `grep ... $slug.tsx`, but an allowlisted command (Bash(grep:*)/Bash(sed:*)) or
-# this hook's own read-only approval would otherwise let it through silently, so
-# this is the one case the hook actively DENIES (overriding any allow rule)
-# instead of falling through.
+# An UNQUOTED `$name` in a path (React Router dynamic segments like `$slug.tsx`)
+# is silently expanded by the shell to the wrong path -- empirically it reads a
+# different file, not an error (see no-bash-on-dollar-paths.md for the matrix).
+# An allowlisted command (Bash(grep:*)/Bash(cat:*)) or this hook's own read-only
+# approval would let that run silently, so the expanding form is the one case the
+# hook actively DENIES (overriding any allow rule). Single-quoted
+# (`'/x/$slug.tsx'`) and backslash-escaped (`"/x/\$slug.tsx"`) forms are
+# shell-literal and reach the program intact, so they are stripped before the
+# check and fall through to the normal flow (a read-only one then auto-approves).
 #
 # Matches `$name` only when it reads as a path: preceded by `/`, or followed by
 # a `.ext`. Leaves shell variables/substitutions and regex anchors alone
-# (`$f`, `$HOME`, `$(...)`, `${x}`, `foo$`); a `$VAR` embedded in a path is a
-# rare, accepted false positive.
-if printf '%s' "$command" | grep -qE '(/\\?\$[A-Za-z_]|\\?\$[A-Za-z_][A-Za-z0-9_]*\.[A-Za-z])'; then
-  jq -n '{hookSpecificOutput: {hookEventName: "PreToolUse", permissionDecision: "deny", permissionDecisionReason: "Bash on a path containing \"$\" is blocked (no-bash-on-dollar-paths). Use Read/Edit/Grep/Glob, which take the path directly and bypass the shell. For git, target the parent directory instead of naming the $ file."}}'
+# (`$f`, `$HOME`, `$(...)`, `${x}`, `foo$`); a `$VAR` embedded in a literal path
+# is a rare, accepted false positive.
+probe=$(printf '%s' "$command" | sed "s/'[^']*'/ /g" | sed 's/\\[$]/ /g')
+if printf '%s' "$probe" | grep -qE '(/\$[A-Za-z_]|\$[A-Za-z_][A-Za-z0-9_]*\.[A-Za-z])'; then
+  jq -n '{hookSpecificOutput: {hookEventName: "PreToolUse", permissionDecision: "deny", permissionDecisionReason: "Bash on an unquoted \"$\"-path expands to the wrong file (no-bash-on-dollar-paths). To read or search it, use Read/Grep/Glob, which take the path literally. For a test/build/git command, single-quote the path (a single-quoted $-path is shell-safe and falls through) or target the parent directory. Do NOT re-run the whole batch; reissue only the still-needed calls one at a time."}}'
   exit 0
 fi
 

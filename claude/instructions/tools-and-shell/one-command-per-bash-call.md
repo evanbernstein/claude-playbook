@@ -1,15 +1,13 @@
 # One command per Bash call
 
-**Rule: don't chain shell commands with `&&`, `||`, `;`, or pipes when each piece could stand alone.** Issue them as separate Bash tool calls. Compound commands match Claude Code's permission allowlist as a single long string; separate calls each match the allowlist individually.
+**Rule: for any command that isn't an auto-approved read, don't chain with `&&`, `||`, `;`, or pipes when each piece could stand alone.** Issue those as separate Bash tool calls.
 
-**Why this matters:** A pattern like `Bash(git status:*)` is prefix-matched against the literal command. `git status` matches. `git -C /repo status && echo "---" && git -C /other status` does not, because the command doesn't start with `git status` and doesn't match any other allow entry as a whole-string. The result is a permission prompt for what should be three auto-allowed operations.
+**Why, and where the hook changed it:** the `allow-shell-reads.sh` hook validates every segment of a chain, so read-only chains and pipelines now auto-approve as one call: `cat a && cat b` and `git -C /x status && git -C /y status` run unprompted, and splitting them is optional. The rule still bites for commands the hook does **not** approve (writes, commits, anything non-read). Those fall back to the prefix-matched allowlist, and a chain like `git commit -m x && git push` matches no single allow entry as a whole string, so it prompts. Worse, a chained write that prompts or fails takes the rest of the chain down with it (the intra-call version of [batch-safety-and-recovery.md](batch-safety-and-recovery.md)).
 
-**Verified behavior** (with a typical read-only allowlist):
+**So:**
 
-- `git status` in two Bash calls: both run unprompted.
-- `git -C /a status && git -C /b status`: prompts, even with `Bash(git -C * status:*)` allowed, because the `&&` keeps the whole string from matching either alternative.
-- `cat file1 && cat file2`: prompts. Two separate `cat` calls do not.
+- Genuine read-only pipeline (`... | sort | uniq -c`, `find | xargs grep`): fine as one call; the hook approves it.
+- Approval-gated or write commands: one per Bash call. Don't chain `git commit`, `git push`, `gh pr create`, formats, installs.
+- Never chain just to save round-trips; round-trips are cheap, prompts and half-applied chains are not.
 
-**When chaining is fine:** real pipelines where the second command depends on the first's stdout, like `git log --format=%H | head -5` or `find . -name '*.ts' | xargs wc -l`. The allowlist can cover these with explicit entries (`Bash(xargs cat:*)`, etc.). Don't reach for `&&` just to save round-trips; the round-trips are cheap and the prompts are not.
-
-**The exception that proves the rule:** if the operations genuinely must be atomic (e.g., `cd dir && command` where the `cd` must apply to the command), prefer the tool's own path argument (`git -C dir`, `make -C dir`, `--cwd`, etc.) over `cd && ...`. Almost every common tool has one.
+**The exception that proves the rule:** when operations must be atomic (`cd dir && command`), prefer the tool's own path argument (`git -C dir`, `make -C dir`, `--cwd`) over `cd && ...`. Almost every common tool has one.

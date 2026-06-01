@@ -96,15 +96,24 @@ check PASS 'env rm -rf x'
 check PASS 'cat <(rm x)'
 check PASS 'sudo cat /etc/shadow'
 
-# --- Bash on a `$`-path must be denied outright (no-bash-on-dollar-paths) ------
-# The allowlist (Bash(sed:*)/Bash(grep:*)/Bash(cat:*)) would otherwise approve a
-# read pipeline over a React Router dynamic-segment file; a hard deny is the only
-# verdict that overrides an allow rule and redirects to Read/Grep.
-check DENY 'grep -n foo apps/web/app/routes/songs/\$slug.tsx'
-check DENY 'sed -n 1,16p /tmp/\$slug.tsx | cat -n'
-check DENY 'cat /tmp/\$action.tsx'
-check DENY 'grep -nE "loader|service" apps/web/app/routes/songs/\$slug.tsx'
-check DENY "grep -n foo '/tmp/\$slug.tsx'"
+# --- Bash on an UNQUOTED `$`-path must be denied (it expands to the wrong file) -
+# Only the expanding form is dangerous: the allowlist (Bash(grep:*)/Bash(cat:*))
+# would otherwise approve a read over a React Router dynamic-segment file that
+# silently reads a different path. A hard deny is the only verdict that overrides
+# an allow rule. Double-quoted-without-escape still expands, so it is denied too.
+check DENY 'grep -n foo apps/web/app/routes/songs/$slug.tsx'
+check DENY 'cat /tmp/$action.tsx'
+check DENY 'grep -nE "loader|service" apps/web/app/routes/songs/$slug.tsx'
+check DENY 'cat "/tmp/$slug.tsx"'
+
+# --- Quoted / escaped `$`-paths are shell-safe, so they are NOT denied ----------
+# Single-quoted and backslash-escaped forms reach the program literally (verified
+# in no-bash-on-dollar-paths.md), so the guard lets them through: a read-only
+# command auto-approves, a non-read-only one (sed) falls through to a prompt.
+check ALLOW "grep -n foo '/tmp/\$slug.tsx'"
+check ALLOW 'cat /tmp/\$action.tsx'
+check ALLOW 'grep -nE "loader" apps/web/app/routes/songs/\$slug.tsx'
+check PASS  'sed -n 1,16p /tmp/\$slug.tsx | cat -n'
 
 # --- Benign `$` (shell vars, substitutions, regex anchors) must NOT be denied --
 check ALLOW 'echo $HOME'
