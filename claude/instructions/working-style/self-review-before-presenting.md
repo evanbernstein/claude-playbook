@@ -4,6 +4,14 @@ After every implementation task, no matter how small, do a self-review pass befo
 
 **Why:** A disciplined pre-present review catches stale code, uncovered behavior, copy-paste duplication, and comments that describe vanished code in seconds. Skipping it burns a round-trip. The user also wants to see the diff described in plain terms; they should not have to read the diff to learn what landed.
 
+**When this fires — read this first, it's the part that gets skipped.** The trigger is *changing files*, not a formal "here is the finished feature" moment. It fires:
+
+- After **any** change to source files, before you tell the user it's done, hand back for review, or report a green build — even mid-task, even when you're only reporting incremental progress. "`make test` passes" is **not** a substitute for the read-through; passing validations and reviewing the diff are different checks.
+- Whether or not there is a plan. A long, interrupt-driven session with no single "presenting" beat is exactly where this slips — so treat every "I'm about to message the user after editing code" as the trigger.
+- **In every plan you author**, self-review is an explicit step in the verification section, not implied by "run the tests." Write it as its own line so it survives into execution.
+
+If you realize you've reported work as done without the read-through, do the read-through immediately and report what it found — don't paper over it.
+
 **Re-read every changed file end to end.** List every file touched (`git status`, `git diff --stat`). Open each one and check:
 
 - **Conventions.** Does it follow root `CLAUDE.md` and any per-package `CLAUDE.md`? Formatting, naming, structure, file placement.

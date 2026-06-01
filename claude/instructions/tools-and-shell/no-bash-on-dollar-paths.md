@@ -11,6 +11,8 @@ This affects React Router v7 dynamic segments (`$slug.tsx`, `$action.tsx`) and a
 - `grep -n foo /tmp/\$slug.tsx`: prompts.
 - `echo X; grep ...`: prompts, because the first token isn't `grep` and the allowlist match fails.
 
+The bare-command prompt is not a reliable guard: an allowlisted leading command (`Bash(sed:*)`, `Bash(grep:*)`, `Bash(cat:*)`) or a read-only pipeline runs the `$`-path silently, because the metacharacter screen that prompts on a single command doesn't stop a decomposed pipeline or a hook-approved read. So the `allow-shell-reads.sh` PreToolUse hook now **denies** any Bash command on a `$`-path outright (overriding allow rules) and returns a reason pointing back to the first-party tools. Treat the rule as enforced, not advisory.
+
 **Why "no Bash at all" rather than "avoid `$`":** The permission system pre-screens Bash command text for shell metacharacters. `$` is confirmed to prompt regardless of quoting. Others (`` ` ``, `$(...)`, `;`, `&&`, `||`, `|`, `>`, `<`) are likely to as well. Constructing a "clever" Bash command that avoids `$` by using a parent-dir glob or regex usually trips a different metacharacter. Skip the cleverness; use the tools that don't go through the shell.
 
 **Rare cases where Bash really is needed:**

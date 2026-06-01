@@ -9,6 +9,8 @@ When you learn something during a session that would help on future tasks, proac
 
 When in doubt, ask: "Would I want this rule in my next project too?" If yes, it's generic; put it in the playbook. If no, it belongs in the project file.
 
+**Instruction files, not feedback memory, are the home for durable rules.** A generalizable working-style, coding, or tooling rule goes in a `CLAUDE.md` / `claude/instructions/` file (per the scope split above), NOT in an auto-memory `feedback` entry. The auto-memory system describes `feedback` memories as "how you should work," which overlaps and tempts the wrong choice; resist it. Reserve `feedback` memory for genuinely transient or session-scoped context that doesn't belong in a checked-in instruction file. If a rule is worth remembering for the next task, it's worth a one-line instruction-file edit that every future session and project sees.
+
 **Why:** Instruction files are how this project teaches the next Claude session. A pattern that lives only in this conversation evaporates when the session ends; a one-line addition survives. Putting it in the right repo also matters: generic rules in the playbook benefit every project; project-specific rules in the project file avoid polluting the playbook with one codebase's quirks.
 
 **How to apply:**

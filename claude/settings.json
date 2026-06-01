@@ -118,10 +118,11 @@
         "hooks": [
           {
             "type": "command",
-            "command": "/Users/evan/Programming/claude-playbook/claude/hooks/redirect-shell-reads.sh"
+            "command": "/Users/evan/Programming/claude-playbook/claude/hooks/allow-shell-reads.sh"
           }
         ]
       }
     ]
-  }
+  },
+  "effortLevel": "low"
 }
