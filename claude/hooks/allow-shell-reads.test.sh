@@ -62,9 +62,22 @@ check ALLOW 'printf "%s" "$x"'
 check ALLOW 'head -20 file; tail -5 file'
 check ALLOW 'FOO=bar grep x file'
 check ALLOW 'jq ".items[]" file.json | head'
+check ALLOW 'cd /some/dir && grep -rn foo app'
+check ALLOW 'cd dir; ls -la'
+check ALLOW 'cd a && echo hi; grep x f | head'
+check ALLOW "sed -n '134,175p' apps/web/app/routes/venues/file.tsx"
+check ALLOW "sed -n '134,175p' apps/web/app/routes/venues/\\\$slug.tsx"
+check ALLOW "sed '1,5p' file"
+check ALLOW "sed -n '\$p' file"
+check ALLOW "sed -n '1,5p' file | head"
+check ALLOW "sed -n '1,5p' a.txt b.txt"
+check ALLOW "echo hi; sed -n '1,5p' file | head"
+check ALLOW "cd /repo; grep -n x f | head; sed -n '435,490p' apps/web/app/routes/users/\\\$username.tsx"
 
 # --- Commands that must fall through to a prompt -------------------------------
 check PASS 'grep foo f > out.txt'
+check PASS 'cd dir && rm -rf x'
+check PASS 'cd dir && cat f > out.txt'
 check PASS 'find . -name x -delete'
 check PASS 'echo hi && rm -rf build'
 check PASS 'gh pr create --body-file /tmp/x'
@@ -75,6 +88,12 @@ check PASS 'git checkout -b new'
 check PASS 'git branch -D feature'
 check PASS 'git tag -d v1'
 check PASS 'sed -i "s/x/y/" file'
+check PASS "sed -n '1,5p;1w out.txt' file"
+check PASS "sed -i '134,175p' file"
+check PASS 'sed -n "1,5p" file'
+check PASS "echo hi; sed -i '1,5p' file"
+check PASS "echo hi; sed -n '1w out' file"
+check PASS "sed -n '1,5p' file > out.txt"
 check PASS 'sort -o out.txt file'
 check PASS 'tee file'
 check PASS 'cat f | tee out'

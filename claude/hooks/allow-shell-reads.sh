@@ -20,6 +20,8 @@
 # parse confidently cause a safe fall-through.
 #
 #   Allow:  grep -rn foo app/ 2>/dev/null | head
+#   Allow:  cd apps/web && grep -rn foo app | head   (cd is dir-only, write-safe)
+#   Allow:  sed -n '134,175p' file.tsx               (print-only sed; see below)
 #   Allow:  find . -name '*.ts' | xargs grep foo | sort | uniq -c
 #   Allow:  cat "$f" | grep "$(date +%Y)"
 #   Allow:  git log --oneline | grep fix
@@ -62,6 +64,22 @@ fi
 # safely; fall through rather than risk it.
 [[ "$command" == *'`'* ]] && exit 0
 
+# Read-only sed. sed is excluded from the allowlist because it can write (-i,
+# the w/W/r/R/e commands, s///w) and this hook strips quoted scripts before
+# classifying -- so a stripped "sed ... file" segment is indistinguishable from
+# a writing one. Bridge that by neutralizing ONLY the provably-safe shape into a
+# classification-only copy of the command (never run -- it just drives the
+# allow/deny decision): sed with an optional -n and a SINGLE-QUOTED script of
+# nothing but line-address selectors and output-only commands
+# ([0-9 , $ ~ + ; p q d n N]) is rewritten to "cat". That set has no
+# w/r/e/s/i/a/c/y, so the script can only print; as "cat" it rides the normal
+# pipeline validator and composes inside chains and pipes
+# (echo ...; sed -n '1,5p' f | head). Every other sed form (-i, an
+# unquoted/double-quoted script, a w/e command) is left as "sed", stays off the
+# allowlist, and still prompts. An unescaped $-path file is denied above either
+# way; the cleaner habit for a line range is the Read tool's offset/limit.
+classify=$(printf '%s' "$command" | sed -E "s/sed[[:space:]]+(-n[[:space:]]+)?'[0-9,\$~+;pqdnN[:space:]]+'/cat/g")
+
 # Read-only command allowlist. Membership test via a case statement so the set
 # stays readable. Commands that can write are deliberately excluded; the few
 # allowed commands that CAN write given a flag (sort -o, yq -i, find actions)
@@ -73,7 +91,8 @@ fi
 # stripped. A pipeline containing them falls through to a normal prompt.
 is_read_only_cmd() {
   case "$1" in
-    grep | egrep | fgrep | rg | ag | find | ls | cat | bat | head | tail | wc | \
+    cd | pushd | popd | dirs | \
+      grep | egrep | fgrep | rg | ag | find | ls | cat | bat | head | tail | wc | \
       sort | uniq | cut | tr | nl | tac | rev | fold | column | comm | join | paste | \
       jq | yq | tree | stat | file | which | type | echo | printf | pwd | date | \
       basename | dirname | realpath | readlink | hostname | whoami | id | uname | \
@@ -219,7 +238,8 @@ validate_string() {
 
 # Validate and then strip $(...) command substitutions. A nested $( inside a
 # substitution, or an unbalanced one, means we can't parse it confidently.
-subs=$(printf '%s' "$command" | grep -oE '\$\([^)]*\)' || true)
+# Everything from here runs on the sed-neutralized classify copy, not $command.
+subs=$(printf '%s' "$classify" | grep -oE '\$\([^)]*\)' || true)
 if [[ -n "$subs" ]]; then
   while IFS= read -r sub; do
     [[ -n "$sub" ]] || continue
@@ -229,7 +249,7 @@ if [[ -n "$subs" ]]; then
     validate_string "$inner" || exit 0
   done <<<"$subs"
 fi
-stripped=$(printf '%s' "$command" | sed -E 's/\$\([^)]*\)/ /g')
+stripped=$(printf '%s' "$classify" | sed -E 's/\$\([^)]*\)/ /g')
 [[ "$stripped" == *'$('* ]] && exit 0
 
 validate_string "$stripped" || exit 0
