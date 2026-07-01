@@ -69,9 +69,6 @@ Then restart the session.
 
 The stub above pulls in *everything* in the playbook's `CLAUDE.md`. If you only want some of the rules, two options:
 
-- **Pick rules à la carte.** Skip the `@../claude-playbook/CLAUDE.md` import. Instead, copy the specific `## Always` lines you want from the playbook's `CLAUDE.md` into your project's `CLAUDE.md` directly, and replace the `Details:` links with absolute `@../claude-playbook/...` imports if you want Claude to load the longer explanations on demand. You lose automatic updates for those rules, but you get exactly the set you want.
-- **Frozen copy.** Copy the playbook files into your project and commit them. See the "Frozen copy" section below.
-
 ### If you want the voice rules everywhere, not just in this project
 
 The `## Always` block at the top of `CLAUDE.md` holds voice/working-style rules; they apply to every chat, every file, every project. Install them at user scope so they fire even in projects that don't have the playbook reference. See [claude/install-globally.md](claude/install-globally.md) for the copy-paste for Claude Code, claude.ai, Claude Desktop / Cowork, and the API.
@@ -103,17 +100,6 @@ cp -R claude-playbook/claude/skills/obsidian-article-saver ~/.claude/skills/
 
 See [claude/skills/README.md](claude/skills/README.md) for more.
 
-### Alternative: frozen copy
-
-If you'd rather check the playbook directly into your project (no external dependency, no "yell if missing" failure mode, but no automatic updates either), copy the files in:
-
-```bash
-cp claude-playbook/CLAUDE.md your-project/
-cp -R claude-playbook/claude your-project/
-```
-
-Then trim `CLAUDE.md` and the corresponding files under `claude/instructions/` down to the rules you want.
-
 ## How the playbook works under the hood
 
 Three short reads on how Claude's instruction-and-memory systems actually behave, useful both for using this playbook well and for designing your own:
@@ -129,10 +115,6 @@ If you're using Claude Desktop or Cowork rather than Claude Code, the `@import` 
 You don't have a project-level `CLAUDE.md` in those tools, but you can paste the working-style instructions into Profile Instructions (Settings → Personalization on claude.ai) to get the same effect. The same field carries over into Cowork sessions automatically. See [claude/install-globally.md](claude/install-globally.md).
 
 The `claude/skills/` directory is also useful; skills work the same way across Claude products.
-
-## Why this exists
-
-These are instructions I've accumulated across multiple projects, cleaned up so other people can use them.
 
 ## License
 
