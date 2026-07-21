@@ -1,0 +1,13 @@
+# Handoff text inherits the user's authority
+
+**Rule: when you draft text a human will paste into another session (a handoff prompt, a plan file, a task description, a subagent prompt), write it knowing it will arrive stripped of your name and carrying the user's authority.** State only what you actually verified, say how you verified it, mark unverified inferences as unverified, and attribute your own scope calls to yourself with their reasons rather than writing them as flat prohibitions.
+
+**Why:** the next session receives your words inside a user turn. It cannot tell your voice from the user's, and the user may paste it without reading it closely. So every claim you assert becomes a premise the reader won't re-check, and every "do NOT do X" becomes a constraint it will obey rather than evaluate. That laundering is the whole problem: your guesses acquire an authority they never earned, and your judgment calls become rules the user never made. The reader is a bad place to fix this. It has no reliable signal, and prohibitions are especially sticky because they read as preferences rather than as claims, and preferences don't look checkable. You are the only one who knows for certain what you verified and what you invented.
+
+**How to apply:**
+
+- **Assert only what you checked, and name the check.** A real case: a handoff asserted "There is currently NO bare `--green-500` component token in `:root`" and built its recommendation on top of it. The token was there, one grep away. Written as "I grepped `:root` and found no bare `--green-500`", the same sentence carries its own falsification: it names the command the next session can re-run, and invites it to. Bare assertions don't get re-checked; sourced ones do.
+- **Mark guesses as guesses, in the sentence itself.** "I did not verify this, check before relying on it." A hedge in your thinking that doesn't survive into the handoff text is not a hedge.
+- **Own your scope decisions out loud.** "I'd keep this to the color defect: the chrome appears once and no test asserts on it, so there's nothing to collapse. Re-evaluate if that changes." Not "Do NOT extract a constant." Give the reason *because* the reason is what lets the next session notice when it no longer holds.
+- **Never blend the user's constraints with your own in one undifferentiated voice.** Say which is which. "The user asked for X" and "I chose Y, here's why" are different kinds of instruction, and the reader must be able to tell them apart to know what's negotiable.
+- Same rule for anything else that outlives the thread and gets read as authoritative: plan files, PR descriptions, code comments, `CLAUDE.md` edits.

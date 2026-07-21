@@ -7,7 +7,7 @@ Never post a commit message or PR description without explicit approval first. T
 **How to apply:**
 
 - Draft the proposed text into a file the user can open in their editor; a file is simply the easiest review surface. Location doesn't matter (a tempfile, a scratch file, wherever is convenient) as long as it's a fresh, uniquely-named file, never a generic name reused across sessions (stale content has been posted by mistake), and won't get swept into the commit itself.
-- Point the user at the file with a clickable markdown link so they can open it directly, and wait for explicit approval (or edits) before running the `git commit` / `gh pr create` / `gh pr edit` command.
+- Point the user at the file with a clickable markdown link so they can open it directly, and wait for explicit approval (or edits) before running the `git commit` / `gh pr create` / `gh pr edit` command. **When the file lives outside the working directory (e.g. the scratchpad under `/private/tmp/...` or `/tmp/...`), the link href MUST be the absolute path, not a `../../` relative traversal.** The terminal resolves relative hrefs against the working directory, and hand-counting `../` hops up and across trees is easy to get wrong by one level, which produces a dead link. Absolute path = always correct, zero counting. Reserve relative hrefs for files inside the repo.
 - Don't paste the proposed body back into chat as the primary review surface; the file is the artifact under review.
 - Immediately before posting, `Read` the file once more in case the user edited it after approving.
 - Same rule applies to edits of an existing commit message or PR body (`git commit --amend`, `gh pr edit --body-file`): file first, then approval, then post.
